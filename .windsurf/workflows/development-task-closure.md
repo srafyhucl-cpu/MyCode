@@ -57,6 +57,13 @@ flutter test --coverage
 - 技术栈或依赖版本更新
 - 核心功能或架构事实变化
 
+### 6. 悦游服务端发布路径（涉及服务端时）
+
+- Go 源码只从仓库 `server/` 构建。
+- 生产运行包只上传到 `/www/wwwroot/yueyou/`，不得写入其他应用目录。
+- 上传后重启 `yueyou.service`，并执行 `systemctl is-active yueyou`。
+- 至少验证一个悦游公网接口，再将部署结果写入任务文档和开发日志。
+
 ## 技能调用顺序
 
 1. **yueyou-test-ci-guard** - 测试验证

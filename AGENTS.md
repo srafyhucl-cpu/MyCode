@@ -1,6 +1,3 @@
----
-trigger: always_on
----
 # 阅游 (YueYou) - 极客开发手册
 
 本项目是一个赛博朋克风格的沉浸式小说听读器与 2048 益智游戏的融合体。我们的核心目标是在极致的视觉表现力下，通过高效的架构设计确保高频交互与复杂动画的丝滑并存（60FPS+）。
@@ -39,7 +36,7 @@ trigger: always_on
 5. **异步解析**：处理 >100KB 的文件，必须使用 `Isolate` (compute)，严禁阻塞主线程。
 6. **数据隐私**：阅读进度与设置必须纯本地存储，禁止向服务端同步用户数据。
 7. **控制台零警告**：**强制要求** - `flutter analyze` 必须零错误零警告，运行时控制台必须完全清洁，无任何警告信息输出。
-8. **职责过载信号与拆分评估**：下方阈值表是「职责过载的早期信号」，**不是合规目标**。超线表示该文件可能承担了过多职责，**必须停下来用「单一职责 / 可独立测试 / 依赖方向」评估**；评估后如果列出的职责本来就紧密内聚（例如双轨道泵 + 缓冲管理），可以保留警戒线 warning；需要拆分的按「职责边界」拆，而不是「凑行数」拆。硬上限 blocking 仅是**最后闸门**，防止股股膏药的上帝类恶化。超线即触发 `yueyou-file-size-guard` 技能与 `large-file-refactor-review` 工作流；`scripts/ai_checks/rules.dart` 的 `FileSizeRule` 在 CI 与提交前自动拦截。
+8. **职责过载信号与拆分评估**：下方阈值表是「职责过载的早期信号」，**不是合规目标**。超线表示该文件可能承担了过多职责，**必须停下来用「单一职责 / 可独立测试 / 依赖方向」评估**；评估后如果职责本来就紧密内聚，可以保留 warning；需要拆分的按「职责边界」拆，不是「凑行数」拆。硬上限 blocking 仅是最后闸门，防止上帝类恶化。超线即触发 `yueyou-file-size-guard` 技能与 `large-file-refactor-review` 工作流；`scripts/ai_checks/rules.dart` 的 `FileSizeRule` 在 CI 与提交前自动拦截。
 
 ### 📏 职责过载信号阈值表
 
@@ -57,22 +54,16 @@ trigger: always_on
 
 1. 抽出后的单元能否被独立 mock 测试？
 2. 抽出后原文件与新文件的职责边界是否更清晰？
-3. 抽出是否会引入循环依赖、过多 callback、或破坏已有生命周期链？
+3. 抽出是否会引入循环依赖、过多 callback、或破坏生命周期链？
 
-**附加硬约束**（任一违反即 blocking，这些针对「上帝类」反模式本质特征，非合规表演）：
+**附加硬约束**（任一违反即 blocking）：
 
-- 单文件公开类（非 `_` 私有）数量 **≤ 3**（超过则一个文件同时控制多个顶层抽象，违反 SRP）。
-- 单类公开方法数量 **≤ 25**（超过则接口面过大，使用方需记住太多调用口）。
+- 单文件公开类（非 `_` 私有）数量 **≤ 3**。
+- 单类公开方法数量 **≤ 25**。
 - 禁止用 `part` / `part of` 规避行数门禁（这只是隐藏职责，不是拆分职责）。
-- 私有 `_Foo` 抽出到新文件改 public 时，必须在原文件用 `export ... show ...` 做向后兼容，保证现有 `import` 不变。
+- 私有 `_Foo` 抽出到新文件改 public 时，必须在原文件用 `export ... show ...` 做向后兼容。
 
-**反模式警告**：以下动机一律驳回，不得作为拆分理由：
-
-- 「要把文件压到 ≤ N 行」
-- 「要让 AI 门禁 warning 消失」
-- 「要跳出警戒线」
-
-拆分的唯一正当动机是「消除真实的职责混杂 / 提高可测性 / 收敛变更影响面」。
+**反模式警告**：以下动机一律驳回：「要把文件压到 ≤ N 行」、「要让 AI 门禁 warning 消失」、「要跳出警戒线」。拆分的唯一正当动机是「消除真实的职责混杂 / 提高可测性 / 收敛变更影响面」。
 
 ## 📡 TTS 云端通信契约 (极度重要)
 
@@ -103,7 +94,7 @@ trigger: always_on
 - **提交代码**：每次任务完成进行代码提交，提交信息使用中文，格式：`type(scope): 中文描述`。
 - **推送代码**：提交后立即推送到远程分支。
 - **收口顺序**：代码改动 → 文档更新（任务单 + 日志 + README）→ 提交 → 推送，严格按此顺序执行，不可遗漏任何步骤。
-- **职责过载警觉**：行数阈值是「职责可能过载」的早期信号，不是拆分目标。每次修改 `.dart` 文件前先确认行数（IDE 行号或 `Measure-Object -Line`）；若已 ≥ 警戒线，先走 `large-file-refactor-review` 工作流**评估职责**、不是闭眼拆拆分。评估后可能的结论：① 职责真实混杂 → 按职责拆分；② 职责本来就紧密内聚 → 保留 warning 不动。**不得在大文件上继续追加新职责**是硬约束，不受以上评估影响。
+- **大文件警觉**：每次修改 `.dart` 文件前，先确认当前行数；若已 ≥ 警戒线，必须先走 `large-file-refactor-review` 工作流再开始改造，不得在大文件上追加新职责。
 - **警告处理**：严格编写 Markdown 文档，**控制台零警告是强制要求**，常见规范：代码块必须标注语言、标题层级不可跳级、列表前后必须有空行。
 - **打包规范**：打 Android APK 必须使用以下命令，只输出 arm64-v8a 轻量包（覆盖市面 90%+ 主流机型，体积约 28MB），打包完成后清理其他架构产物：
 
@@ -125,30 +116,42 @@ trigger: always_on
   systemctl is-active yueyou
   ```
 
-## 🛠 技能体系与工作流
+## 🔍 质量门禁（每次变更必须通过）
 
-### 技能调用优先级
+```bash
+flutter analyze          # 零错误零警告（控制台完全清洁）
+flutter test --concurrency=1  # 全量测试通过
+dart scripts/ai_code_checker.dart  # AI 工程门禁通过
+cd server && go vet ./... && go build ./...  # 服务端编译通过
+```
 
-1. **yueyou-architecture-guard** - 架构边界约束（最高优先级）
-2. **yueyou-file-size-guard** - 单文件体量与上帝类反模式（与架构守卫并列，超阈值强制触发）
-3. **yueyou-code-quality-guard** - 代码质量规范（含零警告检查）
-4. **yueyou-config-constants-guard** - 配置常量管理
-5. **yueyou-test-ci-guard** - 测试与 CI 规范
-6. **yueyou-tts-audio-guard** - TTS 音频专项
-7. **yueyou-ui-performance-expert** - UI 性能优化
-8. 其他专项技能按需调用
+### 自动化检查清单
 
-### 工作流使用
+- [ ] 无硬编码颜色 / 字体 / 域名（必须使用 `CyberColors` / `CyberTextStyles` / `--dart-define`）
+- [ ] domain 层无 `flutter/material` 导入
+- [ ] build() 内无副作用调用（如 `detectLevel`、`debugPrint`）
+- [ ] 动画使用 `Transform` 驱动（禁止 change width/height）
+- [ ] 高频区域包裹 `RepaintBoundary`
+- [ ] 回调异常全部通过 `CyberLogger.captureWarning` 上报
+- [ ] 空 catch 块附有注释说明原因
 
-- **code-standardization-check** - 代码规范化检查（强制零警告）
-- **large-file-refactor-review** - 大文件治理与拆分 review（每次修改 ≥ 警戒线文件前/后必走）
-- **development-task-closure** - 开发任务收口管理
-- **environment-configuration** - 环境配置验证
-- **skill-usage-guide** - 技能使用指南
+## 📚 专项参考（`.agents/skills/` 详细规则）
 
-### 验收标准
+以下技能文件包含各领域的详细约束和检查脚本，按需查阅：
 
-- [ ] `flutter analyze` **零错误零警告（控制台完全清洁）**
-- [ ] 运行时控制台无任何警告信息输出
-- [ ] 所有技能检查通过
-- [ ] 工作流验收标准全部满足
+| 技能 | 路径 | 覆盖范围 |
+| --- | --- | --- |
+| 架构守卫 | `.agents/skills/yueyou-architecture-guard/SKILL.md` | 模块边界、Riverpod、Clean Architecture |
+| 文件体量 | `.agents/skills/yueyou-file-size-guard/SKILL.md` | 单文件行数、上帝类反模式、拆分 review checklist |
+| 代码质量 | `.agents/skills/yueyou-code-quality-guard/SKILL.md` | 日志规范、硬编码、异常处理、Dart 3 |
+| 配置常量 | `.agents/skills/yueyou-config-constants-guard/SKILL.md` | 环境变量、常量分类、魔法数字 |
+| 测试与 CI | `.agents/skills/yueyou-test-ci-guard/SKILL.md` | 测试约定、CI 流程、覆盖率 |
+| TTS 音频 | `.agents/skills/yueyou-tts-audio-guard/SKILL.md` | TTS 契约、状态机、缓存、降级 |
+| UI 性能 | `.agents/skills/yueyou-ui-performance-expert/SKILL.md` | 主题化、帧率、Isolate、动画 |
+| 文档编码 | `.agents/skills/yueyou-docs-encoding-guard/SKILL.md` | 文档格式、编码规范 |
+| Domain 纯逻辑 | `.agents/skills/yueyou-domain-pure-logic/SKILL.md` | Domain 层设计模式 |
+| 发版就绪 | `.agents/skills/yueyou-release-readiness-guard/SKILL.md` | 发版前检查清单 |
+| 迁移约束 | `.agents/skills/yueyou-strict-migration/SKILL.md` | 遗留代码迁移规则 |
+| 任务管理 | `.agents/skills/yueyou-task-steward/SKILL.md` | 任务单、日志、文档收口 |
+
+**查找规则时**：先看本文件的开发红线，细节不足时查阅对应技能文件。

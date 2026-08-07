@@ -192,7 +192,11 @@ flutter test test/integration/environment_test.dart
 1. 设置生产环境变量
 2. 执行生产构建命令
 3. 验证 APK 文件生成
-4. 清理其他架构产物
+4. 若更新 Go 服务端，在本地 `server/` 目录交叉编译 Linux amd64 二进制
+5. 将二进制上传到服务器悦游运行目录 `/www/wwwroot/yueyou/`
+6. 执行 `systemctl restart yueyou`，再用 `systemctl is-active yueyou` 确认服务正常
+7. 检查悦游公网接口返回 HTTP 200 后再记录部署完成
+8. 清理其他架构产物
 
 ## 注意事项
 

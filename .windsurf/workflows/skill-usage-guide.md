@@ -127,6 +127,13 @@ domain   → file_size → constants → test   → release  → docs
 3. `yueyou-test-ci-guard` - 验证测试
 4. `yueyou-task-steward` - 文档提交推送
 
+涉及 Go 服务端上线时，追加以下固定链路：
+
+```text
+server/ 交叉编译 → /www/wwwroot/yueyou/ 上传 → 重启 yueyou.service
+→ systemctl is-active yueyou → 悦游公网接口检查
+```
+
 ## 技能选择决策树
 
 ```text

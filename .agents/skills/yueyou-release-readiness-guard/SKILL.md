@@ -48,6 +48,25 @@ flutter build apk --release --target-platform android-arm64 --split-per-abi --da
 
 密钥、AK、Token、Sentry DSN 等敏感信息禁止写入源码、文档示例或提交记录。
 
+## 悦游服务端部署路径
+
+- 本地 Go 源码目录：`server/`
+- 服务器生产运行目录：`/www/wwwroot/yueyou/`
+- systemd 服务单元：`yueyou.service`
+- 环境文件：`/www/wwwroot/yueyou/.env`（仅由 systemd `EnvironmentFile` 注入）
+
+服务端更新必须按以下顺序执行，禁止把二进制上传到其他项目目录：
+
+```powershell
+Push-Location server
+$env:GOOS="linux"; $env:GOARCH="amd64"; go build -o yueyou-server .
+Pop-Location
+scp .\server\yueyou-server root@<生产服务器>:/www/wwwroot/yueyou/yueyou-server
+ssh root@<生产服务器> "systemctl restart yueyou && systemctl is-active yueyou"
+```
+
+重启后至少检查一个悦游公网接口（例如 `/privacy` 或 `/api/v1/book/catalog?bookId=xiyouji`），确认 HTTP 返回正常后才能记录为部署完成。
+
 ## 发布检查命令
 
 ```powershell
