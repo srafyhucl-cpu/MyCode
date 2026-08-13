@@ -9,8 +9,8 @@ from fpdf import FPDF
 
 ROOT = Path(__file__).resolve().parents[2]
 OUT_DIR = ROOT / "docs" / "copyright"
-DOC_FILE = OUT_DIR / "阅游V1.1.0.md"
-OUT_FILE = OUT_DIR / "阅游V1.1.0.pdf"
+DOC_FILE = OUT_DIR / "阅游V1.1.0文档鉴别材料.md"
+OUT_FILE = OUT_DIR / "阅游 V1.1.0 文档鉴别材料.pdf"
 SOFTWARE_NAME = "阅游V1.1.0"
 APPLICANT = "胡传龙"
 LINES_PER_PAGE = 30

@@ -50,6 +50,25 @@
     `.superpowers/`、`DevelopmentPlan/devplan_list.txt`，均不属于本次收口范围。
   - **验证**：仓库根目录已无散落业务文档；规则文件仅剩 `CLAUDE.md` 一份全文权威；
     分支全景收敛为本地 1 + 远程 2。仅文档/归档/分支治理变更，未触碰业务代码。
+- **收口(软著材料升级包)**：
+  - 处理 `docs/copyright/` 版权材料部分：将 2026-05-26 生成的软著申请材料升级包
+    收口提交，替换旧材料结构。
+  - **新材料**：编号命名提交 PDF 五件套（`01_软件源程序雷同补充说明`、
+    `02_独创性说明`、`03_源代码鉴别材料`、`04_源代码目录清单`、`05_Git提交记录`）
+    以及 `阅游 V1.1.0 文档鉴别材料.pdf`（技术设计说明书 13 页）；配套 3 份 Markdown
+    源文档与 6 个生成脚本（改 `generate_document/source_pdf.py`，新增
+    `generate_supplement/originality/catalog/gitlog_pdf.py`）。
+  - **删除旧材料**：`阅游 V1.1.0 源程序.pdf`、`阅游V1.1.0.md`（内容由新材料替代，
+    历史保留在 git）。
+  - **文档更新**：重写 `docs/copyright/README.md`（7 份 PDF + 3 份源文档 + 6 脚本 +
+    生成命令）；更新 `申请清单.md` 材料文件名；修复 `操作说明书.md` 4 处失效截图
+    引用（`02_privacy`→`02_privacy_modal`、`07_tts`→`07_tts_playing`、
+    `08_chapters`→`08_chapter_list`、`09_game`→`09_game_2048`）与尾部多余空行。
+  - **验证**：6 个生成脚本在保留目录结构前提下均可再生成；脚本与源文档无真实
+    密钥/URL；3 份 Markdown 截图引用全部指向真实文件；markdownlint 零告警；
+    未触碰业务代码，工程门禁不受影响；`.codex/`、`.playwright-cli/`、
+    `.superpowers/`、`DevelopmentPlan/devplan_list.txt` 保持未提交。
+  - 同步追加同日计划文件 `DevelopmentPlan/20260813_阶段0落地差距评估.md` 软著收口记录。
 
 ## **2026-08-07**
 
