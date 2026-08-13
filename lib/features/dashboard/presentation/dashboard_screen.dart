@@ -273,40 +273,44 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
 
   /// 构建仿旧版状态卡片组
   Widget _buildStatusPanel() {
-    final provider = ref.watch(gameProvider);
-    return Row(
-      children: [
-        Expanded(
-          child: _buildInfoCard(
-            context,
-            title: '当前得分 | 连击',
-            score: provider.score,
-            combo: provider.combo,
-            showReset: true, // 🔥 找回重置按钮
-            onReset: () async {
-              final confirmed = await showCyberConfirmDialog(
-                context: context,
-                title: '重置棋盘',
-                message: '确定要重置当前游戏吗？所有进度将会丢失。',
-                confirmText: '确认重置',
-                cancelText: '取消',
-              );
-              if (confirmed && mounted) {
-                ref.read(gameProvider).reset();
-              }
-            },
-          ),
-        ),
-        const SizedBox(width: CyberDimensions.spacingMS),
-        Expanded(
-          child: _buildInfoCard(
-            context,
-            title: '最高得分 | 最高连击',
-            score: provider.bestScore,
-            combo: provider.maxCombo,
-          ),
-        ),
-      ],
+    return Consumer(
+      builder: (context, ref, child) {
+        final provider = ref.watch(gameProvider);
+        return Row(
+          children: [
+            Expanded(
+              child: _buildInfoCard(
+                context,
+                title: '当前得分 | 连击',
+                score: provider.score,
+                combo: provider.combo,
+                showReset: true, // 🔥 找回重置按钮
+                onReset: () async {
+                  final confirmed = await showCyberConfirmDialog(
+                    context: context,
+                    title: '重置棋盘',
+                    message: '确定要重置当前游戏吗？所有进度将会丢失。',
+                    confirmText: '确认重置',
+                    cancelText: '取消',
+                  );
+                  if (confirmed && mounted) {
+                    ref.read(gameProvider).reset();
+                  }
+                },
+              ),
+            ),
+            const SizedBox(width: CyberDimensions.spacingMS),
+            Expanded(
+              child: _buildInfoCard(
+                context,
+                title: '最高得分 | 最高连击',
+                score: provider.bestScore,
+                combo: provider.maxCombo,
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 
