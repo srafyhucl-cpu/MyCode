@@ -78,6 +78,17 @@
     4 项全部忽略，文件保留在磁盘不删除。
   - **验证**：`git status` 干净（仅 `.gitignore` 修改）；`git check-ignore` 对 4 项
     全部确认忽略；未触碰业务代码，工程门禁不受影响。
+- **体检(全量质量门禁)**：
+  - 执行 CLAUDE.md 全部 4 项质量门禁，确认当前基线状态。
+  - `flutter analyze` 通过（No issues found，零错误零警告，216s）；
+    `flutter test --concurrency=1` 通过（753 通过 + 4 跳过，All tests passed）；
+    `dart scripts/ai_code_checker.dart` 通过（阻塞 0 / 警告 22）；
+    `cd server && go vet ./... && go build ./...` 通过（均 exit 0）。
+  - **已知负债（未修复）**：AI 门禁 22 项 warning —— 硬编码维度 21 处
+    （`blurRadius`/`EdgeInsets`，分布于 9 个 presentation 文件，建议改用
+    `CyberDimensions` 常量）+ 文件超警戒线 1 处（`tts_engine_service.dart`
+    698 行 > 600，< 800 硬上限，需按职责评估后决定是否拆分）。
+  - **结论**：基线 4/4 门禁全绿，无阻塞项；未触碰业务代码，仅记录结果。
 
 ## **2026-08-07**
 
