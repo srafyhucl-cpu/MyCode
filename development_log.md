@@ -108,6 +108,20 @@
     硬上限，本次未改动该文件）；`cd server && go vet ./... && go build ./...` 通过。
   - 同步追加同日计划文件 `DevelopmentPlan/20260813_阶段0落地差距评估.md` 收敛执行记录；
     纯常量收敛、无新功能/架构变更，README 无需更新。
+- **修复(门禁盲区硬编码)**：
+  - 提交 `ebfb0f0` 后 review 发现 AI 检查器盲区内的一处硬编码：
+    `settings_screen.dart:687` 的 `EdgeInsets.only(bottom: 8.0)`（8.0 ==
+    `CyberDimensions.spacingS`）。检查器正则仅匹配 `EdgeInsets.xxx(<数字>)`、
+    `horizontal:`、`vertical:` 三种形式，匹配不到 `only(bottom: 8.0)` 命名参数
+    形式，因此未进入「21 处」门禁清单。
+  - 修复：`bottom: 8.0` → `bottom: CyberDimensions.spacingS`，视觉零变化。
+  - **复核**：全库再扫同型盲区（`EdgeInsets.only/fromLTRB(top/bottom/left/right:
+    <数字>)`）0 处剩余；`spreadRadius` 9 处数值字面量（0/1/2）为与 blur 配套的
+    阴影扩散小数值，AI 门禁设计上不检查，可接受。
+  - **验证**：`flutter analyze` 零问题；`flutter test --concurrency=1` 通过
+    （755 通过 + 4 跳过）；AI 门禁通过（阻塞 0 / 警告 1，存量行数警告）；
+    `cd server && go vet ./... && go build ./...` 通过。
+  - 同步追加同日计划文件 `DevelopmentPlan/20260813_阶段0落地差距评估.md` 盲区修复记录。
 
 ## **2026-08-07**
 

@@ -684,7 +684,8 @@ class _TtsTestResultDialog extends StatelessWidget {
             const SizedBox(height: CyberDimensions.spacingM),
             ...steps.take(4).map(
                   (step) => Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
+                    padding:
+                        const EdgeInsets.only(bottom: CyberDimensions.spacingS),
                     child: Row(
                       children: [
                         Icon(
