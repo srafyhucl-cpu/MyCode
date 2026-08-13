@@ -69,6 +69,15 @@
     未触碰业务代码，工程门禁不受影响；`.codex/`、`.playwright-cli/`、
     `.superpowers/`、`DevelopmentPlan/devplan_list.txt` 保持未提交。
   - 同步追加同日计划文件 `DevelopmentPlan/20260813_阶段0落地差距评估.md` 软著收口记录。
+- **治理(未跟踪工具目录 gitignore 收口)**：
+  - 处理剩余 4 个未跟踪项：`.codex/`（AI 工具 config.toml）、`.playwright-cli/`
+    （07-15 浏览器验收 console log + page 快照 26 文件）、`.superpowers/`
+    （07-13 brainstorm 会话 html/log/state 10 文件）、`DevelopmentPlan/devplan_list.txt`
+    （计划文件路径清单索引）。
+  - `.gitignore` 末尾新增「AI 工具本地目录/会话数据（本机专属，不入库）」小节，
+    4 项全部忽略，文件保留在磁盘不删除。
+  - **验证**：`git status` 干净（仅 `.gitignore` 修改）；`git check-ignore` 对 4 项
+    全部确认忽略；未触碰业务代码，工程门禁不受影响。
 
 ## **2026-08-07**
 

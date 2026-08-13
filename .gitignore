@@ -52,7 +52,7 @@ dart_defines.json
 # 内部开发笔记（可能含服务器 IP 等敏感信息）
 handoff_status.md
 
-# Android NDK/CMake ��������
+# Android NDK/CMake ��������
 android/app/.cxx/
 android/build/
 
@@ -87,3 +87,9 @@ books/generate_chapter_audio.py
 
 # 测试覆盖率产物（每次 flutter test --coverage 都会重新生成）
 coverage/
+
+# AI 工具本地目录/会话数据（本机专属，不入库）
+.codex/
+.playwright-cli/
+.superpowers/
+DevelopmentPlan/devplan_list.txt
