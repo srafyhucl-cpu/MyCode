@@ -346,22 +346,29 @@ class _SquareBoardState extends ConsumerState<SquareBoard>
                                   .where((tile) => tile != null)
                                   .map((tile) {
                                 final pos = _findTilePosition(board, tile!);
-                                return AnimatedPositioned(
+                                return Positioned(
                                   key: ValueKey(tile.id),
-                                  duration: CyberDimensions.animXFast,
-                                  curve: Curves.easeOut,
-                                  left: pos.$2 * (cellSize + spacing),
-                                  top: pos.$1 * (cellSize + spacing),
+                                  left: 0,
+                                  top: 0,
                                   width: cellSize,
                                   height: cellSize,
-                                  child: TileWidget(
-                                    id: tile.id,
-                                    value: tile.value,
-                                    onEliminate: () {
-                                      ref
-                                          .read(gameProvider)
-                                          .eliminateTileById(tile.id);
-                                    },
+                                  child: AnimatedContainer(
+                                    duration: CyberDimensions.animXFast,
+                                    curve: Curves.easeOut,
+                                    transform: Matrix4.translationValues(
+                                      pos.$2 * (cellSize + spacing),
+                                      pos.$1 * (cellSize + spacing),
+                                      0.0,
+                                    ),
+                                    child: TileWidget(
+                                      id: tile.id,
+                                      value: tile.value,
+                                      onEliminate: () {
+                                        ref
+                                            .read(gameProvider)
+                                            .eliminateTileById(tile.id);
+                                      },
+                                    ),
                                   ),
                                 );
                               }),

@@ -266,7 +266,9 @@ class TtsCacheManager {
                     modifiedAtMs: stat.modified.millisecondsSinceEpoch,
                   ),
                 );
-              } catch (_) {}
+              } catch (_) {
+                // 忽略并发读写过程中的文件系统属性访问异常（如文件已在一瞬间被删除）
+              }
             }());
           }
         }

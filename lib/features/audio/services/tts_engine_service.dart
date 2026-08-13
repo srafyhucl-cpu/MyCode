@@ -533,7 +533,9 @@ class TtsEngineService extends ChangeNotifier {
       } else {
         await _wakeLock.disable();
       }
-    } catch (_) {}
+    } catch (_) {
+      // 忽略特定平台 Wakelock API 异常（如不支持的设备环境），避免崩溃
+    }
   }
 
   /// 使用本地 TTS 引擎朗读指定文本：委托 [TtsAudioDownloader]。
@@ -624,7 +626,9 @@ class TtsEngineService extends ChangeNotifier {
       // 尝试停止播放器，出错时静默处理
       try {
         await _audioPlayer.stop();
-      } catch (_) {}
+      } catch (_) {
+        // 忽略底层播放器销毁时的跨平台状态异常
+      }
       onComplete?.call();
     }
   }
