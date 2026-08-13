@@ -31,6 +31,25 @@
     （`task.md` 等）与全部业务代码，待后续 P1/P2 决策。
   - **验证**：根目录已无 mp3/log/js/html 残留；`yueyou-ai-*` 不再被任何文档引用；
     仅文档与归档变更，未触碰业务代码，`flutter analyze` 等工程门禁不受影响。
+- **治理(P1/P2 仓库结构收口)**：
+  - **规则文件统一**：以 `CLAUDE.md` 为唯一权威（升级"服务端部署"段落为 scp +
+    `systemctl is-active` 版本），`AGENTS.md` 改为兼容入口指针，删除重复副本
+    `.windsurf/rules/AGENT.md`，消除三份规则内容漂移。
+  - **根目录散落文档归档**：`task.md` → `docs/historical/`（已完成历史任务清单）、
+    `STORE_LISTING.md` → `docs/product/`（商店上架文案）、`TTS_FLOW.md` 与
+    `yueyouflowchart.md` → `docs/`（当前架构流程图），均 `git mv` 保留历史；
+    同步更新 `贡献指南.md` 中对 `task.md` 的引用。
+  - **`server_py/` 处置**：FastAPI/edge-tts 实验后端（AI 转型方向残留，未跟踪/不在
+    CI/未部署）经确认移出仓库备份至 `D:\Project\_yueyou_archive\server_py\`。
+  - **分支清理**：删除本地快照分支 `cascade/*` ×3（含关联孤儿 worktree）、本地
+    `yueyou_test`（HEAD 祖先无独有提交）；经确认删除远程 `master`（初始化提交）与
+    `yueyou_old_test`（旧结构历史），删除前以标签 `archive/origin-master-e18df48`、
+    `archive/origin-yueyou-old-test-af43d59` 归档保护；保留 M4 活跃分支
+    `origin/yueyou_test` 与当前 `codex/prod-03-a-tts-guard`。
+  - **未动**：`docs/copyright/` 版权材料及其生成脚本、`.codex/`、`.playwright-cli/`、
+    `.superpowers/`、`DevelopmentPlan/devplan_list.txt`，均不属于本次收口范围。
+  - **验证**：仓库根目录已无散落业务文档；规则文件仅剩 `CLAUDE.md` 一份全文权威；
+    分支全景收敛为本地 1 + 远程 2。仅文档/归档/分支治理变更，未触碰业务代码。
 
 ## **2026-08-07**
 

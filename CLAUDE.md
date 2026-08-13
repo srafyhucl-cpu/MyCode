@@ -104,14 +104,16 @@
 
   产物路径：`build/app/outputs/flutter-apk/app-arm64-v8a-release.apk`
 
-- **服务端部署**：Go 服务端位于 `server/` 目录，部署路径 `/www/wwwroot/yueyou/`，通过 systemd（`yueyou.service`）托管。AK 密钥通过 `/www/wwwroot/yueyou/.env` 的 `EnvironmentFile` 注入，**严禁写入代码或版本库**。更新服务端后执行以下步骤：
+- **服务端部署**：Go 服务端源码位于本仓库 `server/`，生产运行包统一位于服务器 `/www/wwwroot/yueyou/`，由 systemd 单元 `yueyou.service` 托管。AK 密钥通过服务器 `/www/wwwroot/yueyou/.env` 的 `EnvironmentFile` 注入，**严禁写入代码或版本库**。更新服务端后执行以下步骤：
 
   ```bash
   # 1. 本地交叉编译（在 server/ 目录执行）
   $env:GOOS="linux"; $env:GOARCH="amd64"; go build -o yueyou-server .
-  # 2. 上传二进制到服务器
-  # 3. 服务器重启服务
+  # 2. 上传到服务器悦游运行目录 /www/wwwroot/yueyou/
+  scp .\yueyou-server root@<生产服务器>:/www/wwwroot/yueyou/yueyou-server
+  # 3. 服务器重启服务并检查状态
   systemctl restart yueyou
+  systemctl is-active yueyou
   ```
 
 ## 🔍 质量门禁（每次变更必须通过）
