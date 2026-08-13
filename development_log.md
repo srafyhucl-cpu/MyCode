@@ -16,7 +16,21 @@
   - 新增 `DevelopmentPlan/20260813_阶段0落地差距评估.md`，给出证据矩阵、结构
     性判断与"真机基线 → 小额访谈 → 外部资源门"的重排建议。
   - **验证**：本报告仅为证据核查与差距评估，未修改任何业务代码，README 无需
-    更新；未清理或提交工作区既有未跟踪文件。
+    更新。
+- **清理(P0 根目录治理)**：
+  - 删除根目录测试残留与临时下载物：`tts_*.mp3` ×2、`fail.log`、
+    `flutter_01.log`、`fulltest.log`、`test_output.log`、`main.js`、`main2.js`、
+    `rendered_page.html`、`share_page.html`、`jsfiles/`。
+  - 新建 `docs/historical/` 归档区（含 `README.md` 说明清单与规则），将双愿景
+    残留 `yueyou-ai-transformation-plan.md`、`yueyou-ai-prototype.html`（`git mv`
+    保留历史）与已完成的 TTS 状态机重构历史任务书
+    `基于Riverpod与Dart3彻底重写TTS音频流状态机.md` 归档，消除"AI 转型"与
+    "阅读优先"两套方向的混存。
+  - 核对 `贡献指南.md` 仍被 `README.md` 引用，保留在根目录未归档。
+  - **未动**：`docs/copyright/` 版权材料、`server_py/`、已跟踪散落 md
+    （`task.md` 等）与全部业务代码，待后续 P1/P2 决策。
+  - **验证**：根目录已无 mp3/log/js/html 残留；`yueyou-ai-*` 不再被任何文档引用；
+    仅文档与归档变更，未触碰业务代码，`flutter analyze` 等工程门禁不受影响。
 
 ## **2026-08-07**
 
