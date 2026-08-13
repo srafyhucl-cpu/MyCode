@@ -32,16 +32,37 @@ class CyberDimensions {
   static const double borderThin = 0.5;
 
   // ==================== 毛玻璃模糊系统 ====================
-  // 3 级模糊强度
+  // 模糊强度阶梯（Faint → Light → Soft → Medium → Wide → Strong → Deep → Heavy → Max）
 
-  /// 强模糊 - 用于主要容器（棋盘、卡片）
-  static const double blurStrong = 20.0;
+  /// 极轻模糊 - 用于文本阴影、开关光晕等细节
+  static const double blurFaint = 4.0;
+
+  /// 轻模糊 - 用于遮罩、头部、贴近阴影
+  static const double blurLight = 10.0;
+
+  /// 柔和模糊 - 用于卡片光晕、计数器辉光
+  static const double blurSoft = 12.0;
 
   /// 中模糊 - 用于工具栏、控制台
   static const double blurMedium = 15.0;
 
-  /// 轻模糊 - 用于遮罩、头部
-  static const double blurLight = 10.0;
+  /// 宽幅模糊 - 用于棋盘霓虹、按钮光晕
+  static const double blurWide = 16.0;
+
+  /// 宽幅投影 - 用于按钮深影、霓虹光晕外层
+  static const double blurWideShadow = 18.0;
+
+  /// 强模糊 - 用于主要容器（棋盘、卡片）
+  static const double blurStrong = 20.0;
+
+  /// 深模糊 - 用于控制台投影
+  static const double blurDeep = 25.0;
+
+  /// 重模糊 - 用于弹窗霓虹光晕、悬浮阴影
+  static const double blurHeavy = 30.0;
+
+  /// 极限模糊 - 用于弹窗背景深影
+  static const double blurMax = 40.0;
 
   // ==================== 间距系统 ====================
   // 标准间距，8px 倍数
@@ -54,6 +75,12 @@ class CyberDimensions {
   static const double spacingML = 20.0;
   static const double spacingL = 24.0;
   static const double spacingXL = 32.0;
+
+  /// 微间距 - 用于波形条间隙等像素级细节
+  static const double spacingMicro = 1.5;
+
+  /// 补充间距档 - 介于小间距与中间距之间（选择器内边距等）
+  static const double spacingSPlus = 10.0;
 
   // ==================== 头部 / 工具栏 ====================
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'cyber_colors.dart';
+import 'cyber_dimensions.dart';
 
 class CyberTextStyles {
   static const String monoFont = 'JetBrains Mono';
@@ -11,7 +12,7 @@ class CyberTextStyles {
     letterSpacing: 2.0, // 字间距拉开，更有极客敲代码的呼吸感
     shadows: [
       Shadow(
-        blurRadius: 10.0, // 发光半径
+        blurRadius: CyberDimensions.blurLight, // 发光半径
         color: CyberColors.glowShadow,
         offset: Offset(0, 0),
       ),

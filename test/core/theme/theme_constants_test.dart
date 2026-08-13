@@ -74,12 +74,39 @@ void main() {
       expect(CyberDimensions.blurStrong > CyberDimensions.blurMedium, isTrue);
     });
 
+    test('扩展模糊阶梯应单调递增', () {
+      expect(CyberDimensions.blurFaint, equals(4.0));
+      expect(CyberDimensions.blurSoft, equals(12.0));
+      expect(CyberDimensions.blurWide, equals(16.0));
+      expect(CyberDimensions.blurWideShadow, equals(18.0));
+      expect(CyberDimensions.blurDeep, equals(25.0));
+      expect(CyberDimensions.blurHeavy, equals(30.0));
+      expect(CyberDimensions.blurMax, equals(40.0));
+      expect(CyberDimensions.blurFaint < CyberDimensions.blurLight, isTrue);
+      expect(CyberDimensions.blurLight < CyberDimensions.blurSoft, isTrue);
+      expect(CyberDimensions.blurSoft < CyberDimensions.blurMedium, isTrue);
+      expect(CyberDimensions.blurMedium < CyberDimensions.blurWide, isTrue);
+      expect(CyberDimensions.blurWide < CyberDimensions.blurWideShadow, isTrue);
+      expect(
+          CyberDimensions.blurWideShadow < CyberDimensions.blurStrong, isTrue);
+      expect(CyberDimensions.blurStrong < CyberDimensions.blurDeep, isTrue);
+      expect(CyberDimensions.blurDeep < CyberDimensions.blurHeavy, isTrue);
+      expect(CyberDimensions.blurHeavy < CyberDimensions.blurMax, isTrue);
+    });
+
     test('间距系统应为 8 的倍数', () {
       expect(CyberDimensions.spacingXS, equals(4.0));
       expect(CyberDimensions.spacingS, equals(8.0));
       expect(CyberDimensions.spacingM, equals(16.0));
       expect(CyberDimensions.spacingL, equals(24.0));
       expect(CyberDimensions.spacingXL, equals(32.0));
+    });
+
+    test('补充间距档位应正确', () {
+      expect(CyberDimensions.spacingMicro, equals(1.5));
+      expect(CyberDimensions.spacingSPlus, equals(10.0));
+      expect(CyberDimensions.spacingSPlus > CyberDimensions.spacingS, isTrue);
+      expect(CyberDimensions.spacingSPlus < CyberDimensions.spacingMS, isTrue);
     });
   });
 
@@ -112,8 +139,10 @@ void main() {
     });
 
     test('提词器激活样式应为霓虹绿', () {
-      expect(CyberTextStyles.teleprompterActive.color,
-          equals(CyberColors.neonGreen),);
+      expect(
+        CyberTextStyles.teleprompterActive.color,
+        equals(CyberColors.neonGreen),
+      );
     });
   });
 }

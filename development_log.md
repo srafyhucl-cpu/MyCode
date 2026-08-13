@@ -89,6 +89,25 @@
     `CyberDimensions` 常量）+ 文件超警戒线 1 处（`tts_engine_service.dart`
     698 行 > 600，< 800 硬上限，需按职责评估后决定是否拆分）。
   - **结论**：基线 4/4 门禁全绿，无阻塞项；未触碰业务代码，仅记录结果。
+- **治理(CyberDimensions 界面尺寸常量收敛)**：
+  - 承接体检发现的 21 处硬编码维度负债（`blurRadius`/`EdgeInsets`），本次统一收敛
+    至 `lib/core/theme/cyber_dimensions.dart`，数值逐一对应、视觉零变化。
+  - **常量补齐**：模糊阶梯新增 `blurFaint(4)`、`blurSoft(12)`、`blurWide(16)`、
+    `blurWideShadow(18)`、`blurDeep(25)`、`blurHeavy(30)`、`blurMax(40)`，与既有
+    `blurLight/Medium/Strong` 组成单调递增阶梯；间距新增 `spacingMicro(1.5)`、
+    `spacingSPlus(10)`。
+  - **替换范围**：9 个 presentation/shared 文件 21 处（`cyber_player_console`×2、
+    `voice_waveform`×1、`dashboard_screen`×3、`floating_score`×2、`square_board`×3、
+    `tile_widget`×1、`cyber_import_button`×2、`settings_screen`×5、`cyber_modal`×2）；
+    主题层 `cyber_shadows.dart`、`cyber_text_styles.dart` 同步收敛同类 blur 值。
+  - **测试补充**：`theme_constants_test.dart` 纯新增 2 项（扩展模糊阶梯单调递增、
+    补充间距档位），未改既有断言。
+  - **验证**：`flutter analyze` 零问题；`flutter test --concurrency=1` 通过
+    （755 通过 + 4 跳过）；AI 门禁通过（阻塞 0 / 警告 22 → 1，硬编码维度 21 处全部
+    清零，剩余 1 项为存量 `tts_engine_service.dart` 698 行 > 600 警戒线，未达 800
+    硬上限，本次未改动该文件）；`cd server && go vet ./... && go build ./...` 通过。
+  - 同步追加同日计划文件 `DevelopmentPlan/20260813_阶段0落地差距评估.md` 收敛执行记录；
+    纯常量收敛、无新功能/架构变更，README 无需更新。
 
 ## **2026-08-07**
 

@@ -326,7 +326,7 @@ class _SquareBoardState extends ConsumerState<SquareBoard>
                         ...CyberShadows.elevated,
                         BoxShadow(
                           color: CyberColors.neonCyan.withValues(alpha: 0.12),
-                          blurRadius: 16,
+                          blurRadius: CyberDimensions.blurWide,
                           spreadRadius: -4,
                           offset: const Offset(0, 0),
                         ),
@@ -436,7 +436,9 @@ class _SquareBoardState extends ConsumerState<SquareBoard>
                                                           .withValues(
                                                         alpha: 0.1,
                                                       ),
-                                                      blurRadius: 12,
+                                                      blurRadius:
+                                                          CyberDimensions
+                                                              .blurSoft,
                                                       spreadRadius: 0,
                                                     ),
                                                   ],
@@ -463,7 +465,9 @@ class _SquareBoardState extends ConsumerState<SquareBoard>
                                                                 .withValues(
                                                               alpha: 0.55,
                                                             ),
-                                                            blurRadius: 16,
+                                                            blurRadius:
+                                                                CyberDimensions
+                                                                    .blurWide,
                                                           ),
                                                         ],
                                                       ),
